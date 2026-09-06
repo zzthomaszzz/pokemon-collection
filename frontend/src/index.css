@@ -1,0 +1,124 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+/* shadcn token layer.
+   Every colour is defined once here and referenced by name everywhere else, so
+   changing the brand is a one-line edit rather than a find-and-replace.
+   --primary keeps the purple your old index.css was already using. */
+:root {
+  /* 0, not the 0.5rem default. Committed: the app is about pixel sprites, which
+     are square by nature — sharp corners agree with the subject instead of
+     softening it. Every shadcn component reads this one variable. */
+  --radius: 0rem;
+
+  --background: oklch(0.995 0.002 300);
+  --foreground: oklch(0.16 0.02 300);
+
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.16 0.02 300);
+
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.16 0.02 300);
+
+  --primary: oklch(0.58 0.25 305);
+  --primary-foreground: oklch(0.99 0.005 300);
+
+  --secondary: oklch(0.96 0.008 300);
+  --secondary-foreground: oklch(0.22 0.02 300);
+
+  --muted: oklch(0.96 0.008 300);
+  --muted-foreground: oklch(0.53 0.02 300);
+
+  --accent: oklch(0.96 0.015 305);
+  --accent-foreground: oklch(0.22 0.02 300);
+
+  --destructive: oklch(0.58 0.22 27);
+  --destructive-foreground: oklch(0.99 0 0);
+
+  --border: oklch(0.92 0.008 300);
+  --input: oklch(0.92 0.008 300);
+  --ring: oklch(0.58 0.25 305);
+}
+
+.dark {
+  --background: oklch(0.15 0.015 300);
+  --foreground: oklch(0.97 0.005 300);
+
+  --card: oklch(0.19 0.018 300);
+  --card-foreground: oklch(0.97 0.005 300);
+
+  --popover: oklch(0.19 0.018 300);
+  --popover-foreground: oklch(0.97 0.005 300);
+
+  --primary: oklch(0.68 0.23 305);
+  --primary-foreground: oklch(0.14 0.02 300);
+
+  --secondary: oklch(0.26 0.02 300);
+  --secondary-foreground: oklch(0.97 0.005 300);
+
+  --muted: oklch(0.26 0.02 300);
+  --muted-foreground: oklch(0.7 0.02 300);
+
+  --accent: oklch(0.28 0.03 305);
+  --accent-foreground: oklch(0.97 0.005 300);
+
+  --destructive: oklch(0.65 0.2 27);
+  --destructive-foreground: oklch(0.14 0 0);
+
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 16%);
+  --ring: oklch(0.68 0.23 305);
+}
+
+/* Maps the variables above onto Tailwind utilities, so `bg-primary`,
+   `text-muted-foreground`, `rounded-lg` etc. resolve to these values. */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* every radius resolves to 0 — max(0, ...) stops the small ones going negative */
+  --radius-sm: max(0px, calc(var(--radius) - 4px));
+  --radius-md: max(0px, calc(var(--radius) - 2px));
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  /* One pairing: Clash Display for headings only, system stack for body.
+     Gives `font-display` as a utility. Body text stays fast and familiar. */
+  --font-display: "Clash Display", ui-sans-serif, system-ui, sans-serif;
+}
+
+@utility pixelated {
+  image-rendering: pixelated;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
